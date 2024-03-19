@@ -7,7 +7,7 @@
       <el-form :model="loginForm" ref="loginForm" :rules="loginRules">
         <el-form-item prop="phone">
             <el-input placeholder="输入手机号" v-model="loginForm.phone"></el-input>
-          </el-form-item>
+          </el-form-item> 
           <el-form-item prop="code">
             <el-input placeholder="输入验证码" v-model="loginForm.code"></el-input>
             <el-button type="primary" style="margin-left: 10px;" size="mini" @click="sendCode">发送验证码</el-button>

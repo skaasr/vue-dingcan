@@ -75,7 +75,6 @@ export default {
          */
         async addShoppingCart(){
          const { id , price } = this.$route.query.item
-         
          let data = {dishId:id,userId:store.getters.userId,number:this.stepValue}
          console.log(data);
          const result =  await  addShoppingCart(data)
