@@ -16,7 +16,7 @@ router.beforeEach(async (to,from,next) => {
     }else{
       if(!store.getters.userId){
      let result  = await  store.dispatch('getUserInfo')
-    
+     console.log(result);
       }
         next()
     }

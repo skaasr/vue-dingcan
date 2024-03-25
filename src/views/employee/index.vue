@@ -55,7 +55,7 @@
             <!-- 角色显示页面 -->
             <el-dialog title="分配角色" v-show="dialogRole" :visible.sync="dialogRole" width="30%">
                 <el-checkbox-group v-model="assginRoleList">
-                    <el-checkbox v-for="item in allRoleList" :key="item.id" :label="item.roleCode">{{ item.roleName
+                    <el-checkbox v-for="item in allRoleList" :key="item.id" :label="item.id">{{ item.roleName
                         }}</el-checkbox>
                 </el-checkbox-group>
                <el-row slot="footer" type="flex" justify="center">
@@ -82,7 +82,7 @@ export default {
             value2: '',
             total: 0,
             allRoleList: [],//所有角色
-            assginRoleList: [],// 选中角色
+            assginRoleList: [],// 选中角色id集合
             currentUserId: '',//当前选中id
             dialogRole: false,
             dialogShow: false,
@@ -126,7 +126,7 @@ export default {
          * 确定分配角色
          */
         async btnOk(){
-        let result  =   await  assignRole({userId:this.currentUserId, roleId:this.assginRoleList})
+        await  assignRole({userId:this.currentUserId, roleId:this.assginRoleList})
         this.$message.success('分配用户角色成功')
         this.btncancel()
         },
@@ -137,20 +137,20 @@ export default {
          this.dialogRole = false
          },
         /**
-         * 查询角色和当前用户角色        ******存在问题***** 返回用户所属角色为空
+         * 查询角色和当前用户角色       
          */
         async getRole(row) {
-            console.log(row);
-            let result = await queryRole({ userId: row.id })
-            console.log(result);
-            this.allRoleList = result.data.allRoleList
-            this.currentUserId  = row.id
             
-            let roleArr = []
-            this.roleArr = result.data.assginRoleList
-            this.roleArr.forEach(item => {
-                this.assginRoleList.push(item.roleCode)
-            })
+            let result = await queryRole({ userId: row.id })
+            this.allRoleList = result.data.allRoleList
+            this.currentUserId  = row.id     // 当前所选用户id 赋值
+            // this.roleArr = result.data.assginRoleList
+            // this.roleArr.forEach(item => {
+            //     this.assginRoleList.push(item.id)
+            // })
+            this.assginRoleList = result.data.assginRoleList.map(item => {
+                return item.id
+            })  
             this.dialogRole = true
         },
         /**
